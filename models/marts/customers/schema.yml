@@ -159,14 +159,15 @@ models:
         data_type: date
         description: Month bucket of the customer's first delivered or refunded order.
       - name: days_since_first_order
-        data_type: number
+        data_type: number(38, 0)
         description: Days elapsed between the first order and this order.
       - name: months_since_acquisition
-        data_type: number
+        data_type: number(38, 0)
         description: Whole months elapsed since the customer acquisition month.
       - name: customer_order_number
-        data_type: number
+        data_type: number(38, 0)
         description: Sequential order number for the customer based on ordered_at.
+
         data_tests:
           - not_null
       - name: city_id
