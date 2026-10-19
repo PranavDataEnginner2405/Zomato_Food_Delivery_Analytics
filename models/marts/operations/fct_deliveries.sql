@@ -5,7 +5,8 @@
         incremental_strategy = 'merge',
         full_refresh         = false,
         unique_key           = 'delivery_id',
-        cluster_by           = ['delivered_at::date', 'city_id']
+        cluster_by           = ['delivered_at::date', 'city_id'],
+        on_schema_change     = 'append_new_columns'
     )
 }}
 {% else %}
@@ -19,7 +20,8 @@
         lookback             = 1,
         full_refresh         = false,
         unique_key           = 'delivery_id',
-        cluster_by           = ['delivered_at::date', 'city_id']
+        cluster_by           = ['delivered_at::date', 'city_id'],
+        on_schema_change     = 'append_new_columns'
     )
 }}
 {% endif %}
