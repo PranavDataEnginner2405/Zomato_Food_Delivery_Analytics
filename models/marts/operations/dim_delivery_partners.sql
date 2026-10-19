@@ -45,7 +45,10 @@ select
     p.is_active,
 
     -- geography
-    p.home_city_id,
+    coalesce(
+        try_to_number(p.home_city_id)::varchar,
+        p.home_city_id::varchar
+    )                                                           as home_city_id,
     ci.city_name                                                as home_city_name,
 
     -- lifetime stats
@@ -68,5 +71,6 @@ from partners as p
 left join recent_deliveries as rd
     on p.delivery_partner_id = rd.delivery_partner_id
 left join cities as ci
-    on p.home_city_id = ci.city_id
+    on coalesce(try_to_number(p.home_city_id)::varchar, p.home_city_id::varchar) = ci.city_id
+
 

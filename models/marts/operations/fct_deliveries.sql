@@ -3,9 +3,9 @@
     config(
         materialized         = 'incremental',
         incremental_strategy = 'merge',
-        full_refresh         = false,
         unique_key           = 'delivery_id',
-        cluster_by           = ['delivered_at::date', 'city_id']
+        cluster_by           = ['delivered_at::date', 'city_id'],
+        on_schema_change     = 'append_new_columns'
     )
 }}
 {% else %}
@@ -14,15 +14,18 @@
         materialized         = 'incremental',
         incremental_strategy = 'microbatch',
         event_time           = 'assigned_at',
-        begin                = '2024-01-01',
-        batch_size           = 'day',
+        begin                = '2020-01-01',
+        batch_size           = 'year',
+
         lookback             = 1,
-        full_refresh         = false,
         unique_key           = 'delivery_id',
-        cluster_by           = ['delivered_at::date', 'city_id']
+        cluster_by           = ['delivered_at::date', 'city_id'],
+        on_schema_change     = 'append_new_columns'
     )
 }}
 {% endif %}
+
+
 
 with
 
