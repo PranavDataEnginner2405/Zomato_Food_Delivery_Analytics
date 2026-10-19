@@ -3,7 +3,8 @@
         materialized         = 'incremental',
         incremental_strategy = 'merge',
         unique_key           = 'order_id',
-        cluster_by           = ['ordered_at::date']
+        cluster_by           = ['ordered_at::date'],
+        on_schema_change     = 'append_new_columns'
     )
 }}
 
@@ -65,9 +66,9 @@ select
     o.cuisine_type,
     o.restaurant_tier,
     o.order_status,
-    o.total_amount,
-    o.promo_discount_amount,
-    o.total_items,
+    cast(o.total_amount as number(38, 6))          as total_amount,
+    cast(o.promo_discount_amount as number(38, 6)) as promo_discount_amount,
+    cast(o.total_items as number(38, 0))            as total_items,
 
     -- timing
     o.ordered_at,
@@ -75,8 +76,9 @@ select
     o.order_date,
     o.order_month,
     o.is_weekend_order,
-    o.total_delivery_minutes,
+    cast(o.total_delivery_minutes as number(38, 0)) as total_delivery_minutes,
     o.updated_at,
+
 
     -- audit
     {{ add_audit_columns(hash_columns=['order_id']) }}

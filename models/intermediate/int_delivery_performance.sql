@@ -86,15 +86,16 @@ with
 
             round(
                 count_if(is_on_time_delivery = true) /
-                nullif(count_if(delivery_status = 'delivered'), 0),
+                nullif(count(distinct delivery_id), 0),
                 4
             )                                                   as on_time_delivery_rate,
 
             round(
                 count_if(is_sla_breach = true) /
-                nullif(count_if(delivery_status = 'delivered'), 0),
+                nullif(count(distinct delivery_id), 0),
                 4
             )                                                   as sla_breach_rate,
+
 
             -- Delivery time percentiles
             avg(total_delivery_minutes)                         as avg_delivery_minutes,
