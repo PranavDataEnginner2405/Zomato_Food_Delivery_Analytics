@@ -43,7 +43,10 @@ select
     s.is_purely_vegetarian,
 
     -- geography
-    s.city_id,
+    coalesce(
+        try_to_number(s.city_id)::varchar,
+        s.city_id::varchar
+    )                                                       as city_id,
     ci.city_name,
     ci.city_tier,
 
@@ -75,5 +78,6 @@ from snapshot as s
 left join recent_performance as rp
     on s.restaurant_id = rp.restaurant_id
 left join cities as ci
-    on s.city_id = ci.city_id
+    on coalesce(try_to_number(s.city_id)::varchar, s.city_id::varchar) = ci.city_id
+
 

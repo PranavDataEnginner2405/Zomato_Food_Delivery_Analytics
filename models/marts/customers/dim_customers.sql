@@ -27,7 +27,8 @@ with
             s.customer_phone,
 
             -- profile
-            s.city_id,
+            s.city_id::varchar as city_id,
+
             s.acquisition_channel,
             s.customer_segment,
             s.is_active,

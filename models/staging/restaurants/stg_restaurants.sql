@@ -22,7 +22,11 @@ renamed as (
         is_purely_vegetarian,
 
         -- foreign keys
-        cast(city_id as varchar)                    as city_id,
+        coalesce(
+            try_to_number(city_id)::varchar,
+            cast(city_id as varchar)
+        )                                               as city_id,
+
         cast(area_id as varchar)                    as area_id,
 
         -- operational attributes

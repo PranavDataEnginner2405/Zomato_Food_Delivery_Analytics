@@ -39,7 +39,8 @@ def model(dbt, session):
             F.when(F.col("HEALTH_SCORE") >= 85, F.lit("excellent"))
             .when(F.col("HEALTH_SCORE") >= 70, F.lit("healthy"))
             .when(F.col("HEALTH_SCORE") >= 50, F.lit("watchlist"))
-            .otherwise(F.lit("at_risk")),
+            .otherwise(F.lit("critical")),
+
         )
         .with_column(
             "needs_attention",
